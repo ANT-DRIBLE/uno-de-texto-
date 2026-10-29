@@ -1,1 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17152b">
+  <meta name="description" content="Jogue UNO Dissertativo Argumentativo e aprenda redação para o ENEM.">
+  <title>UNO Dissertativo | Desafio ENEM</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a href="#" class="brand" aria-label="UNO Dissertativo, início">
+      <span class="brand-logo">UNO</span>
+      <span class="brand-text">DISSERTATIVO<small>DESAFIO ENEM</small></span>
+    </a>
+    <button id="rules-button" class="secondary-button">Como jogar?</button>
+  </header>
 
+  <main class="game-container">
+    <section class="intro">
+      <span class="eyebrow">APRENDA JOGANDO</span>
+      <h1>UNO <span>Dissertativo</span></h1>
+      <p>Construa argumentos, responda aos desafios e vença o computador!</p>
+    </section>
+
+    <section class="scoreboard" aria-label="Placar da partida">
+      <div class="score-card">
+        <span>VOCÊ</span>
+        <strong id="player-score">0</strong>
+        <small id="player-count">7 cartas</small>
+      </div>
+      <div class="round-status">
+        <span class="status-dot"></span>
+        <strong id="turn-label">Sua vez</strong>
+        <small id="round-label">Rodada 1</small>
+      </div>
+      <div class="score-card opponent-score">
+        <span>COMPUTADOR</span>
+        <strong id="computer-score">0</strong>
+        <small id="computer-count">7 cartas</small>
+      </div>
+    </section>
+
+    <section class="table-area">
+      <div class="opponent-area">
+        <div class="avatar">🤖</div>
+        <div class="opponent-info">
+          <strong>RedaBot</strong>
+          <small>Seu adversário</small>
+        </div>
+        <div id="computer-hand" class="card-back-row"
+             aria-label="Cartas do computador"></div>
+      </div>
+
+      <div class="battlefield">
+        <div class="pile">
+          <span class="pile-label">MONTE DE COMPRA</span>
+          <button id="draw-pile" class="card card-back" aria-label="Comprar carta">
+            <span class="back-logo">UNO</span>
+            <small>COMPRAR</small>
+          </button>
+          <small id="deck-count">Baralho</small>
+        </div>
+
+        <div class="pile">
+          <span class="pile-label">CARTA DA VEZ</span>
+          <div id="discard-pile" class="card-slot"></div>
+          <small id="active-color-label">Cor ativa</small>
+        </div>
+      </div>
+
+      <div class="game-message" id="game-message" role="status" aria-live="polite">
+        Sua vez! Escolha uma carta que combine com a mesa.
+      </div>
+
+      <div class="player-area">
+        <div class="hand-heading">
+          <div>
+            <strong>Suas cartas</strong>
+            <small>Combine a cor ou o símbolo</small>
+          </div>
+          <button id="uno-button" class="uno-button">UNO!</button>
+        </div>
+        <div id="player-hand" class="player-hand"
+             aria-label="Suas cartas"></div>
+      </div>
+
+      <div class="action-bar">
+        <button id="draw-button" class="primary-button">＋ Comprar carta</button>
+        <button id="pass-button" class="secondary-button" disabled>
+          Passar a vez
+        </button>
+        <button id="new-game-button" class="secondary-button">↻ Nova partida</button>
+      </div>
+    </section>
+
+    <section class="learning-panel">
+      <div class="learning-icon">✍️</div>
+      <div>
+        <span class="eyebrow">DICA DE REDAÇÃO</span>
+        <h2 id="tip-title">Uma boa tese orienta o texto</h2>
+        <p id="tip-text">Apresente seu posicionamento sobre o tema e deixe claro o caminho que seus argumentos seguirão.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p>UNO Dissertativo Argumentativo · Projeto educativo não oficial</p>
+      <p>Pratique, argumente e desenvolva seu repertório para o ENEM.</p>
+    </footer>
+  </main>
+
+  <dialog id="question-dialog" class="modal">
+    <div class="modal-content">
+      <span class="eyebrow" id="question-category">DESAFIO ENEM</span>
+      <h2 id="question-title">Hora de argumentar!</h2>
+      <p id="question-text"></p>
+      <div id="answer-options" class="answer-options"></div>
+      <p id="answer-feedback" class="answer-feedback" aria-live="polite"></p>
+      <button id="continue-button" class="primary-button" hidden>
+        Continuar partida
+      </button>
+    </div>
+  </dialog>
+
+  <dialog id="rules-dialog" class="modal">
+    <div class="modal-content rules-content">
+      <span class="eyebrow">GUIA DO JOGADOR</span>
+      <h2>Como jogar</h2>
+      <ul>
+        <li>Você começa com 7 cartas e enfrenta o RedaBot.</li>
+        <li>Jogue uma carta da mesma cor ou do mesmo símbolo da carta da mesa.</li>
+        <li>Se não puder jogar, compre uma carta. Se ela for válida, poderá jogá-la.</li>
+        <li>Cartas especiais mudam a rodada ou fazem você responder a desafios.</li>
+        <li>Acertar um desafio vale pontos; errar não encerra a partida.</li>
+        <li>Ao ficar com uma carta, aperte UNO! antes da próxima jogada.</li>
+        <li>Vence quem descartar todas as cartas primeiro.</li>
+      </ul>
+      <p class="rules-note">
+        As perguntas são atividades educativas autorais, não questões oficiais
+        do INEP. As cores são associações didáticas, não regras oficiais do UNO.
+      </p>
+      <button id="close-rules" class="primary-button">Entendi!</button>
+    </div>
+  </dialog>
+
+  <dialog id="color-dialog" class="modal">
+    <div class="modal-content">
+      <span class="eyebrow">CORINGA</span>
+      <h2>Escolha a próxima cor</h2>
+      <div class="color-options">
+        <button data-color="red" class="color-choice red-choice">Vermelho</button>
+        <button data-color="blue" class="color-choice blue-choice">Azul</button>
+        <button data-color="green" class="color-choice green-choice">Verde</button>
+        <button data-color="yellow" class="color-choice yellow-choice">Amarelo</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="end-dialog" class="modal">
+    <div class="modal-content">
+      <span class="eyebrow">FIM DE JOGO</span>
+      <h2 id="end-title">Parabéns!</h2> <p id="end-text"></p>
+      <button id="restart-button" class="primary-button">Jogar novamente</button>
+    </div>
+  </dialog>
+</body>
+</html>
